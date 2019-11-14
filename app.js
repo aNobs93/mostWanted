@@ -38,9 +38,16 @@ function mainMenu(person, people){
   switch(displayOption){
     case "info":
     // TODO: get person's info
+    alert("Gender: " + person.gender + "\nAge: " + person.dob + "\nHeight: " + person.height + "\nWeight: " + person.weight + "\nEye Color: " + person.eyeColor + "\nOccupation: " + person.occupation);
     break;
     case "family":
     // TODO: get person's family
+
+   // let spouse = data.filter(function(el){
+   //    if(el.id === person.currentSpouse){
+   //      return true;
+   //    }
+   // })
     break;
     case "descendants":
     // TODO: get person's descendants
