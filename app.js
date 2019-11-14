@@ -57,11 +57,21 @@ function mainMenu(person, people){
 
 function searchByName(people){
   let firstName = promptFor("What is the person's first name?", chars);
+  let firstChar = firstName.slice(0, 1);
+  let firstChars = firstName.slice(1);
+  firstChar = firstChar.toUpperCase();
+  firstChars = firstChars.toLowerCase();
+  firstName = firstChar + firstChars;
   let lastName = promptFor("What is the person's last name?", chars);
+  let lastChar = lastName.slice(0, 1);
+  let lastChars = lastName.slice(1);
+  lastChar = lastChar.toUpperCase();
+  lastChars = lastChars.toLowerCase();
+  lastName = lastChar + lastChars;
 
   let foundPerson = people.filter(function(person){
     if(person.firstName === firstName && person.lastName === lastName){
-      return true;
+      return mainMenu(person);
     }
     else{
       return false;
