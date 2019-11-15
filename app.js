@@ -88,20 +88,7 @@ function searchByName(people){
 
 
 function searchByTraits(people){
-  let gender = promptFor("What is the persons gender?",chars);
-  let height = promptFor("what is the persons height in inches?", chars);
-  let weight = promptFor("what is the persons weight in pounds?", chars);
-  let eyeColor = promptFor("And lastly what is their eye color?", chars);
 
-
-  let foundTraits = people.filter(function(person){
-    if(person.gender === gender && person.height == height && person.weight == weight && person.eyeColor === eyeColor){
-      return mainMenu(person);
-    }
-      else{
-        return false;
-      }
-  })
   return foundTraits;
 }
 
@@ -152,6 +139,10 @@ let familyString = "";
   else if(parents.length > 1){
     familyString += "\nParents: " + parents[0].firstName + " " + parents[0].lastName + ", " + parents[1].firstName + " " + parents[1].lastName;
 }
+  else if(parents.length === 0){
+    alert(familyString);
+    return familyString;
+  }
   let siblings = people.filter(function(el){
     if(el.id != person.id && el.parents[0] === parents[0].id || el.parents[0] === parents[1].id && el.parents[1] === parents[0] || el.parents[1] === parents[1]){
       return true;
