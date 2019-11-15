@@ -100,7 +100,7 @@ function searchByTraits(people){
 
 
   let foundTraits = people.filter(function(person){
-    if(person.gender === gender && person.height == height && person.weight == weight && person.eyeColor === eyeColor){
+    if(person.gender === gender || person.height == height || person.weight == weight || person.eyeColor === eyeColor){
       return mainMenu(person);
     }
       else{
