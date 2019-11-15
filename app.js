@@ -43,11 +43,11 @@ function mainMenu(person, people){
     case "family":
     // TODO: get person's family
 
-   // let spouse = data.filter(function(el){
-   //    if(el.id === person.currentSpouse){
-   //      return true;
-   //    }
-   // })
+   let spouse = people.filter(function(el){
+      if(el.id === person.currentSpouse){
+        return true;
+      }
+   })
     break;
     case "descendants":
     // TODO: get person's descendants
@@ -78,14 +78,14 @@ function searchByName(people){
 
   let foundPerson = people.filter(function(person){
     if(person.firstName === firstName && person.lastName === lastName){
-      return mainMenu(person);
+      return true;
     }
     else{
       return false;
     }
   })
   // TODO: find the person using the name they entered
-  return foundPerson;
+  return foundPerson[0];
 }
 
 // alerts a list of people
