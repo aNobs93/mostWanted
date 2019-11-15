@@ -41,16 +41,11 @@ function mainMenu(person, people){
   switch(displayOption){
     case "info":
     // TODO: get person's info
-    alert("Gender: " + person.gender + "\nAge: " + person.dob + "\nHeight: " + person.height + "\nWeight: " + person.weight + "\nEye Color: " + person.eyeColor + "\nOccupation: " + person.occupation);
+    displayPerson(person);
     break;
     case "family":
     // TODO: get person's family
-
-   let spouse = people.filter(function(el){
-      if(el.id === person.currentSpouse){
-        return true;
-      }
-   })
+    displayFamily(person, people);
     break;
     case "descendants":
     // TODO: get person's descendants
@@ -122,8 +117,65 @@ function displayPerson(person){
   // height, weight, age, name, occupation, eye color.
   let personInfo = "First Name: " + person.firstName + "\n";
   personInfo += "Last Name: " + person.lastName + "\n";
+  personInfo += "Gender: " + person.gender + "\n";
+  personInfo += "Age: " + person.dob + "\n";
+  personInfo += "Height: " + person.height + "\n";
+  personInfo += "Weight: " + person.weight +"\n";
+  personInfo += "Eye Color: " + person.eyeColor + "\n";
+  personInfo += "Occupation: " + person.occupation + "\n";
   // TODO: finish getting the rest of the information to display
   alert(personInfo);
+}
+
+function displayFamily(person, people){
+let familyString = "";
+  let spouse = people.filter(function(el){
+      if(el.id === person.currentSpouse){
+        return true;
+      }else{
+        return false;
+      }
+   })
+  if(spouse.length === 1){  
+  familyString += "Spouse: " + spouse[0].firstName + " " + spouse[0].lastName;
+}
+  let parents = people.filter(function(el){
+    if(el.id === person.parents[0] || el.id === person.parents[1]){
+      return true;
+    }else{
+      return false;
+    }
+  })
+  if(parents.length === 1){
+  familyString += "\nParents: " + parents[0].firstName + " " + parents[0].lastName;
+}
+  else if(parents.length > 1){
+    familyString += "\nParents: " + parents[0].firstName + " " + parents[0].lastName + ", " + parents[1].firstName + " " + parents[1].lastName;
+}
+  let siblings = people.filter(function(el){
+    if(el.id != person.id && el.parents[0] === parents[0].id || el.parents[0] === parents[1].id && el.parents[1] === parents[0] || el.parents[1] === parents[1]){
+      return true;
+    }else{
+      return false;
+    }
+  })
+  if(siblings.length === 1){
+    familyString += "\nSiblings: " + siblings[0].firstName + " " + siblings[0].lastName;
+    alert(familyString);
+  }else if(siblings.length === 2){
+    familyString += "\nSiblings: " + siblings[0].firstName + " " + siblings[0].lastName + ", " + siblings[1].firstName + " " + siblings[1].lastName;
+    alert(familyString);
+  }else if(siblings.length === 3){
+    familyString += "\nSiblings: " + siblings[0].firstName + " " + siblings[0].lastName + ", " + siblings[1].firstName + " " + siblings[1].lastName + ", " + siblings[2].firstName + " " + siblings[2].lastName;
+    alert(familyString);
+  }else if(siblings.length === 4){
+    familyString += "\nSiblings: " + siblings[0].firstName + " " + siblings[0].lastName + ", " + siblings[1].firstName + " " + siblings[1].lastName + ", " + siblings[2].firstName + " " + siblings[2].lastName + ", " + siblings[3].firstName + " " + siblings[3].lastName;
+    alert(familyString);  
+  }else{
+    alert(familyString);
+  }
+
+  // + "\n" + parents[0] + "\n" + parents[1]
 }
 
 // function that prompts and validates user input
