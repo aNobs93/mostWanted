@@ -12,6 +12,9 @@ function app(people){
       searchResults = searchByName(people);
       break;
     case 'no':
+      let searchTraits = promptTraits("Well can you input some traits if asked? Enter 'yes' or 'no'", yesNo).toLowerCase();
+      let searchTraitResults;
+          searchTraitResults = searchByTraits(people);
       // TODO: search by traits
       break;
       default:
@@ -88,6 +91,25 @@ function searchByName(people){
   return foundPerson;
 }
 
+
+function searchByTraits(people){
+  let gender = promptFor("What is the persons gender?",chars);
+  let height = promptFor("what is the persons height in inches?", chars);
+  let weight = promptFor("what is the persons weight in pounds?", chars);
+  let eyeColor = promptFor("And lastly what is their eye color?", chars);
+
+
+  let foundTraits = people.filter(function(person){
+    if(person.gender === gender && person.height == height && person.weight == weight && person.eyeColor === eyeColor){
+      return mainMenu(person);
+    }
+      else{
+        return false;
+      }
+  })
+  return foundTraits;
+}
+
 // alerts a list of people
 function displayPeople(people){
   alert(people.map(function(person){
@@ -111,6 +133,14 @@ function promptFor(question, valid){
   } while(!response || !valid(response));
   return response;
 }
+
+function promptTraits(question, valid){
+  do{ 
+    var response = prompt(question).trim();
+  } while(!response || !valid(response));
+  return response;
+}
+
 
 // helper function to pass into promptFor to validate yes/no answers
 function yesNo(input){
