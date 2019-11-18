@@ -113,6 +113,7 @@ function searchByName(people){
 
 function searchByTraits(people){
 
+<<<<<<< HEAD
     let displayOption = prompt("Gender/Height/Weight/EyeColor/Occupation?").toLowerCase().trim();
     let newArray = " ";
   switch(displayOption){
@@ -164,7 +165,7 @@ function searchByTraits(people){
     default:
     return newArray; // ask again
   }
-}
+
 
 
 
