@@ -19,7 +19,7 @@ function app(people){
       console.log(searchTraitResults);
       break;
       default:
-    app(people); // restart app
+    app(people); // restart app 
       break;
   }
   
@@ -150,7 +150,8 @@ function searchByTraits(people){
 
     break; // stop execution
     case "age":
-    
+    searchResults = searchByAge(searchResults);
+
     break;
    case "quit":
     return searchResults;
@@ -184,27 +185,27 @@ function displayPerson(person){
   alert(personInfo);
 }
 
-// function getAge(person) {
-//     let today = new Date();
+function getAge(person) {
+    let today = new Date();
 
-//     let birthDate = new Date(person.dob);
-//     let age = today.getFullYear() - birthDate.getFullYear();
-//     let m = today.getMonth() - birthDate.getMonth();
-//     if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-//         age--;
-//     }
-//     return age;
-// }
+    let birthDate = new Date(person.dob);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    let m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+    return age;
+}
 
 
 function getAge2(person){
-	let today = new Date();
-	let date = today.getFullYear();
-	let birthDate = person.dob;
-	let finalDate = birthDate.split("/");
-	let age = date - finalDate[2]
-		return age;
-	
+    let today = new Date();
+    let date = today.getFullYear();
+    let birthDate = person.dob;
+    let finalDate = birthDate.split("/");
+    let age = date - finalDate[2]
+        return age;
+    
 }
 
 function displayFamily(person, people){
@@ -368,9 +369,9 @@ function searchByAge(people){
 
       }else if(knownDOB === "no"){
         let knownAge = prompt("Please enter there age.").trim();
-        peoplesAge = getAge2(people);
-        let newArray = people.filter(function(el){
-            if (peoplesAge === knownAge){
+        let newArray = people.filter(function(person){
+            let peoplesAge = getAge2(person);
+            if (peoplesAge == knownAge){
               return true;
             }
             else{
