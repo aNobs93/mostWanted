@@ -129,6 +129,14 @@ function searchByTraits(people){
     break;
     case "height":
     // TODO: get person's family
+    let height = prompt("Please enter height");
+    newArray = people.filter(function(person){
+      if(person.height == height){
+        return true;
+      }else{ 
+        return false;
+      }
+    })
     
     break;
     case "weight":
@@ -164,6 +172,7 @@ function searchByTraits(people){
     default:
     return newArray; // ask again
   }
+}
 
 
 
