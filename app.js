@@ -113,7 +113,7 @@ function searchByName(people){
 
 function searchByTraits(people){
 
-  let displayOption = prompt("Gender/Height/Weight/EyeColor/Occupation?").toLowerCase().trim();
+  let displayOption = prompt("Gender/Height/Weight/EyeColor/Occupation/Age?").toLowerCase().trim();
     let newArray = " ";
   switch(displayOption){
     case "gender":
@@ -121,7 +121,8 @@ function searchByTraits(people){
     newArray = people.filter(function(person){
       if(person.gender === gender){
         return true;
-      }else{
+      }
+      else{
         return false;
       }
     })
@@ -133,7 +134,8 @@ function searchByTraits(people){
     newArray = people.filter(function(person){
       if(person.height == height){
         return true;
-      }else{ 
+      }
+      else{ 
         return false;
       }
     })
@@ -144,7 +146,8 @@ function searchByTraits(people){
     newArray = people.filter(function(person){
       if(person.weight == weight){
         return true;
-      }else{
+      }
+      else{
         return false;
       }
     })
@@ -154,7 +157,8 @@ function searchByTraits(people){
     newArray = people.filter(function(person){
       if(person.EyeColor === eyecolor){
         return true;
-      }else{
+      }
+      else{
         return false;
       }
     })
@@ -162,16 +166,44 @@ function searchByTraits(people){
     case "occupation":
     let occupation = prompt("Please enter occupation").toLowerCase();
     newArray = people.filter(function(person){
-      if(person.occupation === occupation){
+   	  if(person.occupation === occupation){
         return true;
-      }else{
+      }
+      else{
         return false;
       }
     })
     break; // stop execution
-    default:
-    return newArray; // ask again
+    case "age":
+    let knownDOB = prompt("Do you know there DOB? Yes/No").toLowerCase();
+    	if(knownDOB === "yes"){
+    		let dOB = prompt("Please enter DOB. mm/dd/yyyy")
+			newArray = people.filter(function(person){
+				if(person.dob === dOB){
+					return true;
+				}
+				else{
+					return false;
+				}
+			})
+
+    	}else if(knownDOB === "no"){
+    		let knownAge = prompt("Please enter there age.").trim();
+    		peoplesAge = getAge2(people);
+    			newArray = people.filter(function(person){
+    				if (peoplesAge === knownAge){
+    					return true;
+    				}
+    				else{
+    					return false;
+    				}
+
+    	})
+    break;
+    
+    return newArray ; // ask again
   }
+}
 }
 
 
@@ -240,6 +272,7 @@ function displayPerson(person){
 
 function getAge(person) {
     let today = new Date();
+
     let birthDate = new Date(person.dob);
     let age = today.getFullYear() - birthDate.getFullYear();
     let m = today.getMonth() - birthDate.getMonth();
@@ -247,6 +280,20 @@ function getAge(person) {
         age--;
     }
     return age;
+}
+
+
+function getAge2(person,people){
+	let today = new Date();
+	let date = today.getFullYear();
+	let birthDate = person.dob
+	let age = birthDate.substring(birthDate.length - 4);
+	if (age == date){
+		return true;
+	}
+	else{
+	return false; 
+}
 }
 
 function displayFamily(person, people){
