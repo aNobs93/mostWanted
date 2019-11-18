@@ -49,6 +49,7 @@ function mainMenu(person, people){
     break;
     case "descendants":
     // TODO: get person's descendants
+    searchDescendants(person, people);
     break;
     case "restart":
     app(people); // restart
@@ -60,6 +61,29 @@ function mainMenu(person, people){
   }
 }
 
+function searchDescendants(person, people){
+  let kids = " ";
+  let grandKids = " ";
+  let children = people.filter(function(el){
+    if(person.id === el.parents[0] || person.id === el.parents[1]){
+      return true;
+    }else{
+      return false;
+    }
+  })
+  if(children.length === 4){
+    kids += "\nKids: " + children[0].firstName + children[0].lastName + children[1].firstName + children[1].lastName + children[2].firstName + children[2].lastName + children[3].firstName + children[3].lastName;
+  }
+  else if(children.length === 3){
+    kids += "\nKids: " + children.firstName[0] + children.lastName[0] + children.firstName[1] + children.lastName[1] + children.firstName[2] + children.lastName[2];
+  }
+  else if(children.length === 2){
+    kids += "\nKids: " + children.firstName[0] + children.lastName[0] + children.firstName[1] + children.lastName[1];
+  }
+  else if(children.length === 1){
+    kids += "\nKids: " + children.firstName[0] + children.lastName[0];
+  }
+}
 function searchByName(people){
   let firstName = promptFor("What is the person's first name?", chars);
   let firstChar = firstName.slice(0, 1);
@@ -89,9 +113,99 @@ function searchByName(people){
 
 function searchByTraits(people){
 
-  return foundTraits;
+    let displayOption = prompt("Gender/Height/Weight/EyeColor/Occupation?").toLowerCase().trim();
+    let newArray = " ";
+  switch(displayOption){
+    case "gender":
+    let gender = prompt("Male/Female?").toLowerCase();
+    newArray = people.filter(function(person){
+      if(person.gender === gender){
+        return true;
+      }else{
+        return false;
+      }
+    })
+   
+    break;
+    case "height":
+    // TODO: get person's family
+    
+    break;
+    case "weight":
+    let weight = prompt("Pleases enter weight in numbers.");
+    newArray = people.filter(function(person){
+      if(person.weight == weight){
+        return true;
+      }else{
+        return false;
+      }
+    })
+    break;
+    case "eyecolor":
+    let eyecolor = prompt("Please enter Eye Color").toLowerCase();
+    newArray = people.filter(function(person){
+      if(person.EyeColor === eyecolor){
+        return true;
+      }else{
+        return false;
+      }
+    })
+    break;
+    case "occupation":
+    let occupation = prompt("Please enter occupation").toLowerCase();
+    newArray = people.filter(function(person){
+      if(person.occupation === occupation){
+        return true;
+      }else{
+        return false;
+      }
+    })
+    break; // stop execution
+    default:
+    return newArray; // ask again
+  }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//   let traitQuestion = prompt("Male/Female?").toLowerCase();
+//   let gender = traitQuestion;
+
+//   let foundTraits = people.filter(function(person){
+//     if(person.gender === gender){
+//       return true;
+//     }
+//       else{
+//         return false;
+//       }
+//   })
+
+//   return foundTraits;
+// }
+ // || person.height == height || person.weight == weight || person.eyeColor === eyeColor
 // alerts a list of people
 function displayPeople(people){
   alert(people.map(function(person){
@@ -105,13 +219,25 @@ function displayPerson(person){
   let personInfo = "First Name: " + person.firstName + "\n";
   personInfo += "Last Name: " + person.lastName + "\n";
   personInfo += "Gender: " + person.gender + "\n";
-  personInfo += "Age: " + person.dob + "\n";
-  personInfo += "Height: " + person.height + "\n";
-  personInfo += "Weight: " + person.weight +"\n";
+  let realAge = getAge(person);
+  personInfo += "Age: " + realAge + "\n";
+  personInfo += "Height: " + (person.height*0.083333) + "\n";
+  personInfo += "Weight: " + person.weight +"lbs" +"\n";
   personInfo += "Eye Color: " + person.eyeColor + "\n";
   personInfo += "Occupation: " + person.occupation + "\n";
   // TODO: finish getting the rest of the information to display
   alert(personInfo);
+}
+
+function getAge(person) {
+    let today = new Date();
+    let birthDate = new Date(person.dob);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    let m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+    return age;
 }
 
 function displayFamily(person, people){
