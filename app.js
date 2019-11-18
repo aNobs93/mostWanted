@@ -13,9 +13,10 @@ function app(people){
       break;
     case 'no':
       let searchTraits = promptTraits("Well can you input some traits if asked? Enter 'yes' or 'no'", yesNo).toLowerCase();
-      let searchTraitResults;
-          searchTraitResults = searchByTraits(people);
-      // TODO: search by traits
+      let searchTraitResults = searchByTraits(people);
+      let traitResults = descendantsNames(searchTraitResults);
+      alert("Based on the traits we found, " + traitResults);
+      console.log(searchTraitResults);
       break;
       default:
     app(people); // restart app
@@ -123,99 +124,43 @@ function searchByName(people){
 
 
 function searchByTraits(people){
-
-  let displayOption = prompt("Gender/Height/Weight/EyeColor/Occupation/Age?").toLowerCase().trim();
-    let newArray = " ";
+  let searchResults = people;
+  
+  while(searchResults.length > 1){
+    let displayOption = prompt("Gender/Height/Weight/EyeColor/Occupation/Age/Quit?").toLowerCase().trim();
   switch(displayOption){
     case "gender":
-    let gender = prompt("Male/Female?").toLowerCase();
-    newArray = people.filter(function(person){
-      if(person.gender === gender){
-        return true;
-      }
-      else{
-        return false;
-      }
-    })
+    searchResults = searchByGender(searchResults);
    
     break;
     case "height":
-    // TODO: get person's family
-    let height = prompt("Please enter height");
-    newArray = people.filter(function(person){
-      if(person.height == height){
-        return true;
-      }
-      else{ 
-        return false;
-      }
-    })
+    searchResults = searchByHeight(searchResults);
     
     break;
     case "weight":
-    let weight = prompt("Pleases enter weight in numbers.");
-    newArray = people.filter(function(person){
-      if(person.weight == weight){
-        return true;
-      }
-      else{
-        return false;
-      }
-    })
+    searchResults = searchByWeight(searchResults);
+
     break;
     case "eyecolor":
-    let eyecolor = prompt("Please enter Eye Color").toLowerCase();
-    newArray = people.filter(function(person){
-      if(person.EyeColor === eyecolor){
-        return true;
-      }
-      else{
-        return false;
-      }
-    })
+    searchResults = searchByEyeColor(searchResults);
+
     break;
     case "occupation":
-    let occupation = prompt("Please enter occupation").toLowerCase();
-    newArray = people.filter(function(person){
-   	  if(person.occupation === occupation){
-        return true;
-      }
-      else{
-        return false;
-      }
-    })
+    searchResults = searchByOccupation(searchResults);
+
     break; // stop execution
     case "age":
-    let knownDOB = prompt("Do you know there DOB? Yes/No").toLowerCase();
-    	if(knownDOB === "yes"){
-    		let dOB = prompt("Please enter DOB. mm/dd/yyyy")
-			newArray = people.filter(function(person){
-				if(person.dob === dOB){
-					return true;
-				}
-				else{
-					return false;
-				}
-			})
-
-    	}else if(knownDOB === "no"){
-    		let knownAge = prompt("Please enter there age.").trim();
-    			newArray = people.filter(function(person){
-    				let peoplesAge = getAge2(person);
-    				if (peoplesAge === knownAge){
-    					return true;
-    				}
-    				else{
-    					return false;
-    				}
-
-    	})
-    break;
     
-    return newArray ; // ask again
+    break;
+   case "quit":
+    return searchResults;
   }
 }
+ return searchResults;
 }
+
+  
+
 
 function displayPeople(people){
   alert(people.map(function(person){
@@ -341,4 +286,98 @@ function yesNo(input){
 // helper function to pass in as default promptFor validation
 function chars(input){
   return true; // default validation only
+}
+
+function searchByGender(people){
+      let gender = prompt("Male/Female?").toLowerCase();
+    let newArray = people.filter(function(el){
+      if(el.gender === gender){
+        return true;
+      }
+      else{
+        return false;
+      }
+    })
+    return newArray;
+}
+
+function searchByHeight(people){
+     let height = prompt("Please enter height");
+    let newArray = people.filter(function(el){
+      if(el.height == height){
+        return true;
+      }
+      else{ 
+        return false;
+      }
+    })
+    return newArray;
+}
+
+function searchByWeight(people){
+      let weight = prompt("Pleases enter weight in numbers.");
+    let newArray = people.filter(function(el){
+      if(el.weight == weight){
+        return true;
+      }
+      else{
+        return false;
+      }
+    })
+    return newArray;
+}
+
+function searchByEyeColor(people){
+      let eyecolor = prompt("Please enter Eye Color").toLowerCase();
+    let newArray = people.filter(function(el){
+      if(el.EyeColor === eyecolor){
+        return true;
+      }
+      else{
+        return false;
+      }
+    })
+    return newArray;
+}
+
+function searchByOccupation(people){
+      let occupation = prompt("Please enter occupation").toLowerCase();
+    let newArray = people.filter(function(el){
+      if(el.occupation === occupation){
+        return true;
+      }
+      else{
+        return false;
+      }
+    })
+    return newArray;
+}
+
+function searchByAge(people){
+      let knownDOB = prompt("Do you know there DOB? Yes/No").toLowerCase();
+      if(knownDOB === "yes"){
+        let dOB = prompt("Please enter DOB. mm/dd/yyyy")
+        let newArray = people.filter(function(el){
+        if(el.dob === dOB){
+          return true;
+        }
+        else{
+          return false;
+        }
+      })
+
+      }else if(knownDOB === "no"){
+        let knownAge = prompt("Please enter there age.").trim();
+        peoplesAge = getAge2(people);
+        let newArray = people.filter(function(el){
+            if (peoplesAge === knownAge){
+              return true;
+            }
+            else{
+              return false;
+            }
+
+      })
+        return newArray;
+  }
 }
