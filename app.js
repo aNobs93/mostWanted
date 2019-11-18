@@ -200,8 +200,8 @@ function searchByTraits(people){
 
     	}else if(knownDOB === "no"){
     		let knownAge = prompt("Please enter there age.").trim();
-    		peoplesAge = getAge2(people);
     			newArray = people.filter(function(person){
+    				let peoplesAge = getAge2(person);
     				if (peoplesAge === knownAge){
     					return true;
     				}
@@ -239,30 +239,27 @@ function displayPerson(person){
   alert(personInfo);
 }
 
-function getAge(person) {
-    let today = new Date();
+// function getAge(person) {
+//     let today = new Date();
 
-    let birthDate = new Date(person.dob);
-    let age = today.getFullYear() - birthDate.getFullYear();
-    let m = today.getMonth() - birthDate.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-        age--;
-    }
-    return age;
-}
+//     let birthDate = new Date(person.dob);
+//     let age = today.getFullYear() - birthDate.getFullYear();
+//     let m = today.getMonth() - birthDate.getMonth();
+//     if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+//         age--;
+//     }
+//     return age;
+// }
 
 
-function getAge2(person,people){
+function getAge2(person){
 	let today = new Date();
 	let date = today.getFullYear();
-	let birthDate = person.dob
-	let age = birthDate.substring(birthDate.length - 4);
-	if (age == date){
-		return true;
-	}
-	else{
-	return false; 
-}
+	let birthDate = person.dob;
+	let finalDate = birthDate.split("/");
+	let age = date - finalDate[2]
+		return age;
+	
 }
 
 function displayFamily(person, people){
