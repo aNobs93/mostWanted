@@ -49,7 +49,10 @@ function mainMenu(person, people){
     break;
     case "descendants":
     // TODO: get person's descendants
-    searchDescendants(person, people);
+    let emptyArray = [];
+    let finalDescendants = searchDescendants(person, people, emptyArray);
+    let famBamNames = descendantsNames(finalDescendants);
+    alert("Descendants of " + person.firstName + " " + person.lastName + ":" + "\n" + famBamNames);
     break;
     case "restart":
     app(people); // restart
@@ -61,29 +64,37 @@ function mainMenu(person, people){
   }
 }
 
-function searchDescendants(person, people){
-  let kids = " ";
-  let grandKids = " ";
+function searchDescendants(person, people, foundDescendants){
   let children = people.filter(function(el){
     if(person.id === el.parents[0] || person.id === el.parents[1]){
       return true;
     }else{
       return false;
     }
-  })
-  if(children.length === 4){
-    kids += "\nKids: " + children[0].firstName + children[0].lastName + children[1].firstName + children[1].lastName + children[2].firstName + children[2].lastName + children[3].firstName + children[3].lastName;
+  });
+    foundDescendants = foundDescendants.concat(children);
+    if(children.length > 0){
+    let childrenLength = children.length;
+    for(let i = 0; i < childrenLength; i++){
+      foundDescendants = searchDescendants(children[i], people, foundDescendants)
+    }
+
   }
-  else if(children.length === 3){
-    kids += "\nKids: " + children.firstName[0] + children.lastName[0] + children.firstName[1] + children.lastName[1] + children.firstName[2] + children.lastName[2];
-  }
-  else if(children.length === 2){
-    kids += "\nKids: " + children.firstName[0] + children.lastName[0] + children.firstName[1] + children.lastName[1];
-  }
-  else if(children.length === 1){
-    kids += "\nKids: " + children.firstName[0] + children.lastName[0];
-  }
+   return foundDescendants;
 }
+
+function descendantsNames(finalDescendants){
+  let arrayNames = finalDescendants;
+  let arrayNamesLength = finalDescendants.length;
+  let childrenNames = " ";
+  for(let i = 0; i < arrayNamesLength; i++){
+  childrenNames +="\n" + arrayNames[i].firstName + " " + arrayNames[i].lastName;
+    
+  }
+  finalDescendants = childrenNames;
+  return finalDescendants;
+}
+
 function searchByName(people){
   let firstName = promptFor("What is the person's first name?", chars);
   let firstChar = firstName.slice(0, 1);
@@ -174,48 +185,6 @@ function searchByTraits(people){
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//   let traitQuestion = prompt("Male/Female?").toLowerCase();
-//   let gender = traitQuestion;
-
-//   let foundTraits = people.filter(function(person){
-//     if(person.gender === gender){
-//       return true;
-//     }
-//       else{
-//         return false;
-//       }
-//   })
-
-//   return foundTraits;
-// }
- // || person.height == height || person.weight == weight || person.eyeColor === eyeColor
-// alerts a list of people
 function displayPeople(people){
   alert(people.map(function(person){
     return person.firstName + " " + person.lastName;
