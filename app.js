@@ -14,9 +14,15 @@ function app(people){
     case 'no':
       let searchTraits = promptTraits("Well can you input some traits if asked? Enter 'yes' or 'no'", yesNo).toLowerCase();
       let searchTraitResults = searchByTraits(people);
-      let traitResults = descendantsNames(searchTraitResults);
-      alert("Based on the traits we found, " + traitResults);
+      let traitResults = searchTraitResults;
+      let traitResultsLength = traitResults.length;
+      if(traitResultsLength > 21 ){
+        break;
+      }else{
+      let foundNames = descendantsNames(traitResults);
+      alert("Based on the traits we found, " + foundNames);
       console.log(searchTraitResults);
+      }
       break;
       default:
     app(people); // restart app 
@@ -97,13 +103,13 @@ function descendantsNames(finalDescendants){
 }
 
 function searchByName(people){
-  let firstName = promptFor("What is the person's first name?", chars);
+  let firstName = promptFor("What is the person's first name?", chars).trim();
   let firstChar = firstName.slice(0, 1);
   let firstChars = firstName.slice(1);
   firstChar = firstChar.toUpperCase();
   firstChars = firstChars.toLowerCase();
   firstName = firstChar + firstChars;
-  let lastName = promptFor("What is the person's last name?", chars);
+  let lastName = promptFor("What is the person's last name?", chars).trim();
   let lastChar = lastName.slice(0, 1);
   let lastChars = lastName.slice(1);
   lastChar = lastChar.toUpperCase();
@@ -127,7 +133,7 @@ function searchByTraits(people){
   let searchResults = people;
   
   while(searchResults.length > 1){
-    let displayOption = prompt("Gender/Height/Weight/EyeColor/Occupation/Age/Quit?").toLowerCase().trim();
+    let displayOption = prompt("Please enter one of the following traits you would like to search for.\nAfter the first initial search you will be able to refine that search with another trait.\nGender\nHeight\nWeight\nEyeColor\nOccupation\nAge\nOr simply Quit to end the program").toLowerCase().trim();
   switch(displayOption){
     case "gender":
     searchResults = searchByGender(searchResults);
@@ -154,19 +160,16 @@ function searchByTraits(people){
 
     break;
    case "quit":
+    alert("Have a good day.")
+    return searchResults;
+
+    break;
+    case "null":
+    alert("Have a good day.")
     return searchResults;
   }
 }
  return searchResults;
-}
-
-  
-
-
-function displayPeople(people){
-  alert(people.map(function(person){
-    return person.firstName + " " + person.lastName;
-  }).join("\n"));
 }
 
 function displayPerson(person){
@@ -197,7 +200,6 @@ function getAge(person) {
     return age;
 }
 
-
 function getAge2(person){
     let today = new Date();
     let date = today.getFullYear();
@@ -219,6 +221,8 @@ let familyString = "";
    })
   if(spouse.length === 1){  
   familyString += "Spouse: " + spouse[0].firstName + " " + spouse[0].lastName;
+}else if(spouse.length < 1){
+  familyString += "Spouse: none";
 }
   let parents = people.filter(function(el){
     if(el.id === person.parents[0] || el.id === person.parents[1]){
@@ -233,9 +237,11 @@ let familyString = "";
   else if(parents.length > 1){
     familyString += "\nParents: " + parents[0].firstName + " " + parents[0].lastName + ", " + parents[1].firstName + " " + parents[1].lastName;
 }
-  else if(parents.length === 0){
+  else if(parents.length < 1){
+    familyString += "\nParents: None";
     alert(familyString);
     return familyString;
+
   }
   let siblings = people.filter(function(el){
     if(el.id != person.id && el.parents[0] === parents[0].id || el.parents[0] === parents[1].id && el.parents[1] === parents[0] || el.parents[1] === parents[1]){
@@ -259,11 +265,8 @@ let familyString = "";
   }else{
     alert(familyString);
   }
-
-  // + "\n" + parents[0] + "\n" + parents[1]
 }
 
-// function that prompts and validates user input
 function promptFor(question, valid){
   do{
     var response = prompt(question).trim();
@@ -278,15 +281,12 @@ function promptTraits(question, valid){
   return response;
 }
 
-
-// helper function to pass into promptFor to validate yes/no answers
 function yesNo(input){
   return input.toLowerCase() == "yes" || input.toLowerCase() == "no";
 }
 
-// helper function to pass in as default promptFor validation
 function chars(input){
-  return true; // default validation only
+  return true;
 }
 
 function searchByGender(people){
